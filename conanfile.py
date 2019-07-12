@@ -15,7 +15,7 @@ class MyLibConan(base.get_conanfile()):
     url = "https://github.com/czoido/conan-waf-example"
     description = "Just a simple example of using Conan to package a Waf lib"
     topics = ("conan", "libs", "Waf")
-    exports = "wscript", "src/mylib.cpp", "include/mylib.hpp"
+    exports = "wscript", "src/mylib.cpp", "include/mylib.hpp", "LICENSE"
     build_requires = "WafGen/0.1@czoido/testing", "waf/2.0.17@czoido/testing"
 
     def build(self):
@@ -24,8 +24,9 @@ class MyLibConan(base.get_conanfile()):
         waf.build()
 
     def package(self):
-        self.copy("*.hpp", dst="include", src="include")
+        self.copy("*.hpp", dst="include", src="include", keep_path=False)
         self.copy("*.lib", dst="lib", src="build", keep_path=False)
+        self.copy("LICENSE", dst="licenses", src=".", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["mylib"]
